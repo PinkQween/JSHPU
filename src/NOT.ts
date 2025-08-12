@@ -10,10 +10,12 @@ import Transistor from './Transistor';
  */
 export default class NOT {
     /** The single NPN transistor used in this NOT gate */
-    transistor: Transistor;
+    nt: Transistor;
+    pt: Transistor;
 
     constructor() {
-        this.transistor = new Transistor('NPN');
+        this.nt = new Transistor('NPN');
+        this.pt = new Transistor('PNP');
     }
 
     /**
@@ -21,8 +23,9 @@ export default class NOT {
      * @param input boolean input (true=HIGH, false=LOW)
      */
     setInput(input: boolean) {
-        this.transistor.base = input;
-        this.transistor.emitter = false; // emitter connected to ground (LOW)
+        this.nt.collector = false;
+        this.nt.base = input;
+        this.pt.base = input;
     }
 
     /**
@@ -30,6 +33,6 @@ export default class NOT {
      * @returns boolean output (true=HIGH, false=LOW)
      */
     getOutput(): boolean {
-        return this.transistor.compute();
+        return this.pt.compute() || this.nt.compute();
     }
 }

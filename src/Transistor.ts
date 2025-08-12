@@ -20,10 +20,10 @@ export default class Transistor {
     base: boolean;
 
     /** Voltage at emitter terminal (usually ground or Vcc) */
-    emitter: boolean;
+    private emitter: boolean;
 
     /** Simulates pull-up resistor pulling collector HIGH when transistor OFF */
-    collectorPulledHigh: boolean;
+    collector: boolean;
 
     /**
      * Create a transistor instance.
@@ -33,7 +33,7 @@ export default class Transistor {
         this.type = type;
         this.base = false;
         this.emitter = false;
-        this.collectorPulledHigh = true;
+        this.collector = true;
     }
 
     /**
@@ -51,17 +51,22 @@ export default class Transistor {
      */
     compute(): boolean {
         if (this.type === 'NPN') {
-            if (this.base && !this.emitter) {
-                return false; // transistor ON, collector LOW
+            // NPN turns ON when base is HIGH and emitter is LOW
+            if (this.base && this.collector) {
+                return true; // ON → collector LOW
             }
-            return true;    // transistor OFF, collector HIGH
+            return false; // OFF → collector HIGH
         }
+
         if (this.type === 'PNP') {
-            if (!this.base && this.emitter) {
-                return false; // transistor ON, collector LOW
+            // PNP turns ON when base is LOW and emitter is HIGH
+            if (!this.base && this.collector) {
+                return true; // ON → collector HIGH (pulled to emitter)
             }
-            return true;    // transistor OFF, collector HIGH
+            return false; // OFF → collector LOW
         }
-        return true; // default HIGH
+
+        // Default: output HIGH if type unknown
+        return true;
     }
 }
