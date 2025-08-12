@@ -6,20 +6,17 @@ import '../extensions';
  * @param input Array of Electricity states (HIGH or LOW)
  * @returns Binary string representation of the input
  */
-export default (input: Electricity[]) => {
+export default (input: Electricity[]): string => {
     let number = '0b';
 
-    input.forEach(volt => {
+    for (let i = input.length - 1; i >= 0; i--) {
+        const volt = input[i];
         if (volt !== Electricity.HIGH && volt !== Electricity.LOW) {
             throw new Error("Invalid voltage input. Must be HIGH or LOW.");
         }
 
-        if (volt === Electricity.HIGH) {
-            number = number.append('1');
-        } else if (volt === Electricity.LOW) {
-            number = number.append('0');
-        }
-    });
+        number += (volt === Electricity.HIGH) ? '1' : '0';
+    }
 
     return number;
 }

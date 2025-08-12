@@ -1,17 +1,21 @@
-import FullAdder from "./components/FullAdder";
+import "./extensions";
+
 import Electricity from "./components/Electricity";
+import AdderANDSubtractor from "./components/generalized/AdderANDSubtractor";
+import decimalToTwoComplementVoltages from "./utils/DecimalToVoltage";
+import GeneralizedAdder from './components/generalized/Adder';
 import VoltageToBinary from "./utils/VoltageToBinary";
 
-const fullAdder = new FullAdder();
+const generalizedAdderANDSubtractorInstance = new AdderANDSubtractor();
+const generalizedAdder = new GeneralizedAdder();
 
-fullAdder.setInputs(Electricity.LOW, Electricity.LOW, Electricity.HIGH);
+const input1 = decimalToTwoComplementVoltages(64, 8);
+const input2 = decimalToTwoComplementVoltages(32, 8);
 
-const output = fullAdder.getOutput();
+generalizedAdder.setInputs(input1, input2, Electricity.LOW);
 
-// Extract carry as last bit
-const carry = output[output.length - 1];
+console.log(Number(VoltageToBinary(generalizedAdder.getOutput())));
 
-// Extract sum as the rest
-const sum = output.slice(0, output.length - 1);
+generalizedAdderANDSubtractorInstance.setInputs(input2, input1, Electricity.HIGH);
 
-console.log(`Sum: ${VoltageToBinary(sum)}, Carry: ${!!carry}`);
+console.log(VoltageToBinary(generalizedAdderANDSubtractorInstance.getOutput().slice(0, 8)).toSignedInt());
