@@ -1,25 +1,26 @@
-import AND from './AND';
+import Electricity from './Electricity';
 import NOT from './NOT';
+// import AND from './AND';
 
 console.log('=== NOT ===');
 
 const notGate = new NOT();
 
-notGate.setInput(true);
-console.log('Input: true → Output:', notGate.getOutput());  // Expect false
+notGate.setInput(Electricity.HIGH);
+console.log('Input: HIGH → Output:', notGate.getOutput());  // Expect LOW
 
-notGate.setInput(false);
-console.log('Input: false → Output:', notGate.getOutput()); // Expect true
+notGate.setInput(Electricity.LOW);
+console.log('Input: LOW → Output:', notGate.getOutput()); // Expect HIGH
 
-console.log('=== AND ===');
+// console.log('=== AND ===');
 
-const andGate = new AND();
+// const andGate = new AND();
 
-andGate.setInput(true, true);
-console.log('Input: true, true → Output:', andGate.getOutput());  // Expect true
-andGate.setInput(true, false);
-console.log('Input: true, false → Output:', andGate.getOutput()); // Expect false
-andGate.setInput(false, true);
-console.log('Input: false, true → Output:', andGate.getOutput()); // Expect false
-andGate.setInput(false, false);
-console.log('Input: false, false → Output:', andGate.getOutput()); // Expect false
+// andGate.setInput(Electricity.HIGH, Electricity.HIGH);
+// console.log('Input: HIGH, HIGH → Output:', andGate.getOutput());  // Expect HIGH
+// andGate.setInput(Electricity.HIGH, Electricity.LOW);
+// console.log('Input: HIGH, LOW → Output:', andGate.getOutput()); // Expect LOW
+// andGate.setInput(Electricity.LOW, Electricity.HIGH);
+// console.log('Input: LOW, HIGH → Output:', andGate.getOutput()); // Expect LOW
+// andGate.setInput(Electricity.LOW, Electricity.LOW);
+// console.log('Input: LOW, LOW → Output:', andGate.getOutput()); // Expect LOW

@@ -1,15 +1,17 @@
+import Electricity from "./Electricity";
+
 /**
  * Types of transistor supported.
  */
-export type TransistorType = 'NPN' | 'PNP';
+export type TransistorType = "NPN" | "PNP";
 
 /**
  * A simplified transistor model for digital logic simulation.
- * 
+ *
  * The transistor acts as a switch that connects collector to emitter when ON.
  * - NPN transistors conduct (ON) when base is HIGH and emitter is LOW.
  * - PNP transistors conduct (ON) when base is LOW and emitter is HIGH.
- * 
+ *
  * The collector is assumed to be connected to a pull-up resistor (logic HIGH when transistor is OFF).
  */
 export default class Transistor {
@@ -17,13 +19,13 @@ export default class Transistor {
     type: TransistorType;
 
     /** Input voltage to the base (true=HIGH, false=LOW) */
-    base: boolean;
+    base: Electricity;
 
-    /** Voltage at emitter terminal (usually ground or Vcc) */
-    private emitter: boolean;
+    /** Voltage at the emitter */
+    emitter: Electricity;
 
-    /** Simulates pull-up resistor pulling collector HIGH when transistor OFF */
-    collector: boolean;
+    /** Voltage at the collector (simulated output) */
+    collector: Electricity;
 
     /**
      * Create a transistor instance.
@@ -31,42 +33,49 @@ export default class Transistor {
      */
     constructor(type: TransistorType) {
         this.type = type;
-        this.base = false;
-        this.emitter = false;
-        this.collector = true;
+        this.base = Electricity.DISCONNECTED;
+        this.emitter = Electricity.DISCONNECTED;
+        this.collector = Electricity.HIGH; // Default: pulled up
     }
 
     /**
      * Compute the collector voltage based on transistor conduction state.
-     * 
+     *
      * For NPN:
-     *   - ON if base is HIGH and emitter is LOW → collector pulled LOW (false)
-     *   - OFF otherwise → collector pulled HIGH (true)
-     * 
+     *   - ON if base is HIGH and emitter is LOW → collector pulled LOW.
+     *   - OFF otherwise → collector pulled HIGH.
+     *
      * For PNP:
-     *   - ON if base is LOW and emitter is HIGH → collector pulled LOW (false)
-     *   - OFF otherwise → collector pulled HIGH (true)
-     * 
-     * @returns boolean collector voltage (true=HIGH, false=LOW)
+     *   - ON if base is LOW and emitter is HIGH → collector pulled HIGH (to emitter).
+     *   - OFF otherwise → collector pulled HIGH (via pull-up).
+     *
+     * @returns collector voltage
      */
-    compute(): boolean {
-        if (this.type === 'NPN') {
-            // NPN turns ON when base is HIGH and emitter is LOW
-            if (this.base && this.collector) {
-                return true; // ON → collector LOW
+    compute(): Electricity {
+        if (this.type === "NPN") {
+            // NPN ON: base HIGH & emitter LOW
+            if (this.base === Electricity.HIGH && this.emitter === Electricity.LOW) {
+                this.collector = Electricity.LOW;
+                return this.collector;
             }
-            return false; // OFF → collector HIGH
+            // Otherwise OFF → pulled HIGH
+            this.collector = Electricity.HIGH;
+            return this.collector;
         }
 
-        if (this.type === 'PNP') {
-            // PNP turns ON when base is LOW and emitter is HIGH
-            if (!this.base && this.collector) {
-                return true; // ON → collector HIGH (pulled to emitter)
+        if (this.type === "PNP") {
+            // PNP ON: base LOW & emitter HIGH
+            if (this.base === Electricity.LOW && this.emitter === Electricity.HIGH) {
+                this.collector = Electricity.HIGH;
+                return this.collector;
             }
-            return false; // OFF → collector LOW
+            // Otherwise OFF → pulled HIGH by resistor
+            this.collector = Electricity.HIGH;
+            return this.collector;
         }
 
-        // Default: output HIGH if type unknown
-        return true;
+        // Unknown type → disconnected
+        this.collector = Electricity.DISCONNECTED;
+        return this.collector;
     }
 }
