@@ -1,6 +1,5 @@
 import Electricity from './Electricity';
 
-
 /**
  * Wire for digital logic simulation.
  * Supports multiple drivers (sources) and detects bus contention.

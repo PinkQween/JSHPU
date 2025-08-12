@@ -1,4 +1,4 @@
-import Electricity from "./Electricity";
+import type Electricity from "../components/Electricity";
 import NAND from "./NAND";
 import NOT from "./NOT";
 
