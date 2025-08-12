@@ -31,7 +31,7 @@ export default class NAND {
      * @param a Electricity state
      * @param b Electricity state
      */
-    setInput(a: Electricity, b: Electricity) {
+    setInputs(a: Electricity, b: Electricity) {
         this.w0.clearDrivers();
 
         // CMOS NAND: PNPs in parallel (pull-up), NPNs in series (pull-down)

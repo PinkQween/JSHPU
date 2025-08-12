@@ -18,7 +18,7 @@ export default class AND {
      */
     setInputs(input1: Electricity, input2: Electricity) {
         // AND gate is NAND followed by NOT
-        this.nandGate.setInput(input1, input2);
+        this.nandGate.setInputs(input1, input2);
         const nandOutput = this.nandGate.getOutput();
         this.notGate.setInput(nandOutput);
     }

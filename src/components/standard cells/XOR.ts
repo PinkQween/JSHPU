@@ -25,7 +25,7 @@ export default class XOR {
      */
     setInputs(input1: Electricity, input2: Electricity) {
         this.or.setInputs(input1, input2);
-        this.nand.setInput(input1, input2);
+        this.nand.setInputs(input1, input2);
         const orOut = this.or.getOutput();
         const nandOut = this.nand.getOutput();
         this.and.setInputs(orOut, nandOut);

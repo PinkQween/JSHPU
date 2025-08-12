@@ -1,21 +1,21 @@
 import "./extensions";
 
 import Electricity from "./components/Electricity";
-import AdderANDSubtractor from "./components/generalized/AdderANDSubtractor";
 import decimalToTwoComplementVoltages from "./utils/DecimalToVoltage";
-import GeneralizedAdder from './components/generalized/Adder';
 import VoltageToBinary from "./utils/VoltageToBinary";
+import ALU from "./components/generalized/ALU";
 
-const generalizedAdderANDSubtractorInstance = new AdderANDSubtractor();
-const generalizedAdder = new GeneralizedAdder();
+const alu = new ALU();
 
-const input1 = decimalToTwoComplementVoltages(64, 8);
-const input2 = decimalToTwoComplementVoltages(32, 8);
+const input1 = 23;
+const input2 = 5;
 
-generalizedAdder.setInputs(input1, input2, Electricity.LOW);
+const ans = ~(input1 & input2);
 
-console.log(Number(VoltageToBinary(generalizedAdder.getOutput())));
+const op = 5;
 
-generalizedAdderANDSubtractorInstance.setInputs(input2, input1, Electricity.HIGH);
+alu.setInputs(decimalToTwoComplementVoltages(input1, 8),
+             decimalToTwoComplementVoltages(input2, 8),
+             decimalToTwoComplementVoltages(op, 8));
 
-console.log(VoltageToBinary(generalizedAdderANDSubtractorInstance.getOutput().slice(0, 8)).toSignedInt());
+console.log(ans == VoltageToBinary(alu.getOutput()).toSignedInt());
