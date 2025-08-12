@@ -1,6 +1,6 @@
-import Electricity from "../components/Electricity";
-import Transistor from "../components/Transistor";
-import Wire from "../components/Wire";
+import Electricity from "../Electricity";
+import Transistor from "../Transistor";
+import Wire from "../Wire";
 
 export default class NOR {
     tn0: Transistor;

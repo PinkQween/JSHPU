@@ -1,4 +1,4 @@
-import type Electricity from '../components/Electricity';
+import type Electricity from '../Electricity';
 import NOR from './NOR';
 import NOT from './NOT';
 export default class OR {

@@ -1,6 +1,6 @@
-import Electricity from "../components/Electricity";
-import Transistor from "../components/Transistor";
-import Wire from "../components/Wire";
+import Electricity from "../Electricity";
+import Transistor from "../Transistor";
+import Wire from "../Wire";
 
 /**
  * NOT gate (inverter) implemented with a single NPN transistor and pull-up resistor.

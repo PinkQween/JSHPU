@@ -1,6 +1,6 @@
-import Electricity from "../components/Electricity";
-import Transistor from "../components/Transistor";
-import Wire from "../components/Wire";
+import Electricity from "../Electricity";
+import Transistor from "../Transistor";
+import Wire from "../Wire";
 
 /**
  * NAND gate implemented with a 2 NPN and 2 PNP transistors.

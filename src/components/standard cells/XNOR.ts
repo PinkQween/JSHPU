@@ -1,4 +1,4 @@
-import type Electricity from '../components/Electricity';
+import type Electricity from '../Electricity';
 import XOR from './XOR';
 import NOT from './NOT';
 
