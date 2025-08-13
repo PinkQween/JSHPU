@@ -5,11 +5,13 @@ import GeneralizedAND from './GeneralizedAND';
 import GeneralizedOR from './GeneralizedOR';
 import GeneralizedXOR from './GeneralizedXOR';
 import GeneralizedNAND from './GeneralizedNAND';
+
 export default class ALU {
     private adderANDSubtractor: AdderANDSubtractor;
     private generalizedAND: GeneralizedAND;
     private generalizedOR: GeneralizedOR;
     private generalizedXOR: GeneralizedXOR;
+    private generalizedNAND: GeneralizedNAND;
     private res = new Array<Electricity>(0);
 
     constructor() {
@@ -25,14 +27,18 @@ export default class ALU {
      * @returns Array of output signals
      */
     public setInputs(input1: Electricity[], input2: Electricity[], operation: Electricity[]) {
+        let res = [];
+
         switch (Number(VoltageToBinary(operation))) {
             case 0:
                 this.adderANDSubtractor.setInputs(input1, input2, Electricity.LOW);
-                this.res = this.adderANDSubtractor.getOutput();
+                res = this.adderANDSubtractor.getOutput();
+                this.res = res.slice(0, res.length - 1);
                 break;
             case 1:
                 this.adderANDSubtractor.setInputs(input1, input2, Electricity.HIGH);
-                this.res = this.adderANDSubtractor.getOutput();
+                res = this.adderANDSubtractor.getOutput();
+                this.res = res.slice(0, res.length - 1);
                 break;
             case 2:
                 this.generalizedAND.setInputs(input1, input2);

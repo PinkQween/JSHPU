@@ -1,13 +1,14 @@
-import type Electricity from '../Electricity';
-import XOR from '../standard cells/XOR';
+import Electricity from '../Electricity';
 import GeneralizedAdder from './Adder';
+import GeneralizedXOR from './GeneralizedXOR';
+
 export default class AdderANDSubtractor {
     private generalizedAdder: GeneralizedAdder;
-    private xorGates: XOR[];
+    private generalizedXOR: GeneralizedXOR;
     
     constructor() {
         this.generalizedAdder = new GeneralizedAdder();
-        this.xorGates = [];
+        this.generalizedXOR = new GeneralizedXOR();
     }
 
     /**
@@ -17,15 +18,10 @@ export default class AdderANDSubtractor {
      * @param subtractorMode If true, performs subtraction; otherwise, performs addition
      */
     setInputs(input1: Electricity[], input2: Electricity[], subtractorMode: Electricity) {
-        this.xorGates = []; // Reset the xorGates array
-
-        for (let i = 0; i < input2.length; i++) {
-            const xorGate = new XOR();
-            xorGate.setInputs(input2[i], subtractorMode);
-            this.xorGates.push(xorGate);
-        }
-
-        this.generalizedAdder.setInputs(input1, this.xorGates.map(gate => gate.getOutput()), subtractorMode);
+        const xorMask = Array(input2.length).fill(subtractorMode); // same length, all bits set to subtractorMode
+        this.generalizedXOR.setInputs(input2, xorMask);
+        const xorOutput = this.generalizedXOR.getOutput();
+        this.generalizedAdder.setInputs(input1, xorOutput, subtractorMode);
     }
 
     /**

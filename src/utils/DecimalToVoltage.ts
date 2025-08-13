@@ -17,3 +17,13 @@ export default function decimalToTwoComplementVoltages(decimal: number, bitCount
         .map(bit => (bit === '1' ? Electricity.HIGH : Electricity.LOW))
         .reverse(); // Reverse to match MSB at index 0
 }
+
+export const decimalToRegularVoltages = (decimal: number, bitCount: number = 8): Electricity[] => {
+    if (bitCount <= 0) throw new Error("bitCount must be positive");
+
+    const binaryString = decimal.toString(2).padStart(bitCount, '0');
+
+    return Array.from(binaryString)
+        .map(bit => (bit === '1' ? Electricity.HIGH : Electricity.LOW))
+        .reverse();
+};

@@ -1,21 +1,24 @@
 import "./extensions";
 
-import Electricity from "./components/Electricity";
 import decimalToTwoComplementVoltages from "./utils/DecimalToVoltage";
 import VoltageToBinary from "./utils/VoltageToBinary";
 import ALU from "./components/generalized/ALU";
+import ALUOps from "./data/ALUOps";
+import Electricity from "./components/Electricity";
+import GeneralizedAdder from "./components/generalized/Adder";
 
-const alu = new ALU();
+const alu = new GeneralizedAdder();
 
 const input1 = 23;
 const input2 = 5;
 
-const ans = ~(input1 & input2);
+const ans = input1 + input2; // Change this to test different operations
 
-const op = 5;
+const op = ALUOps.ADD;
 
-alu.setInputs(decimalToTwoComplementVoltages(input1, 8),
-             decimalToTwoComplementVoltages(input2, 8),
-             decimalToTwoComplementVoltages(op, 8));
+alu.setInputs([Electricity.DISCONNECTED],
+             [Electricity.HIGH], Electricity.DISCONNECTED);
 
-console.log(ans == VoltageToBinary(alu.getOutput()).toSignedInt());
+// console.log(ans == VoltageToBinary(alu.getOutput()).toSignedInt());
+
+console.log(alu.getOutput());
